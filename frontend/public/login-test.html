@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Login Test</title>
+</head>
+<body>
+    <h1>Quick Login Test</h1>
+    <button onclick="loginAsSupervisor()">Login as Supervisor</button>
+    <button onclick="loginAsPatient()">Login as Patient</button>
+    <button onclick="logout()">Logout</button>
+    <button onclick="checkAuth()">Check Current Auth</button>
+    
+    <div id="status"></div>
+    
+    <script>
+        function loginAsSupervisor() {
+            localStorage.setItem('token', 'demo-supervisor-token');
+            localStorage.setItem('role', 'supervisor');
+            document.getElementById('status').innerHTML = '✅ Logged in as supervisor';
+            setTimeout(() => {
+                window.location.href = '/supervisor/dashboard';
+            }, 1000);
+        }
+        
+        function loginAsPatient() {
+            localStorage.setItem('token', 'demo-patient-token');
+            localStorage.setItem('role', 'patient');
+            document.getElementById('status').innerHTML = '✅ Logged in as patient';
+            setTimeout(() => {
+                window.location.href = '/patient/dashboard';
+            }, 1000);
+        }
+        
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            document.getElementById('status').innerHTML = '🚪 Logged out';
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+            document.getElementById('status').innerHTML = 
+                token ? `🔑 Logged in as: ${role}` : '🚫 Not logged in';
+        }
+        
+        // Check auth on load
+        checkAuth();
+    </script>
+</body>
+</html>

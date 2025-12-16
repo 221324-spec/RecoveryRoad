@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Communication Hub</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            margin: 5px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        button:hover { background: #0056b3; }
+        .result { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 4px; 
+            border-left: 4px solid #007bff; 
+            white-space: pre-wrap; 
+            font-family: monospace; 
+        }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Communication Hub API Test</h1>
+        <p>Testing the same API endpoints that React CommunicationHub.js uses</p>
+        
+        <div>
+            <button onclick="testGetPatients()">🔍 Test Get Patients API</button>
+            <button onclick="testSendMessage()">💬 Test Send Message API</button>
+            <button onclick="testSocketConnection()">🔌 Test Socket.IO Connection</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        const SUPERVISOR_ID = '68e63e313613f67e194b9111';
+        const PATIENT_ID = '68e63e313613f67e194b9113';
+        
+        function addResult(message, type = 'result') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        async function testGetPatients() {
+            addResult('🔍 Testing getPatients API call...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/supervisors/${SUPERVISOR_ID}/patients`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                addResult(`✅ Success! Patients data:\n${JSON.stringify(data, null, 2)}`, 'success');
+                
+                if (data.patients && data.patients.length > 0) {
+                    addResult(`📊 Found ${data.patients.length} patient(s):`, 'success');
+                    data.patients.forEach((patient, index) => {
+                        addResult(`  ${index + 1}. ${patient.name} (ID: ${patient._id})`, 'success');
+                    });
+                } else {
+                    addResult('⚠️ No patients found in response', 'error');
+                }
+                
+            } catch (error) {
+                addResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testSendMessage() {
+            addResult('💬 Testing sendMessage API call...');
+            
+            const messageData = {
+                senderId: SUPERVISOR_ID,
+                receiverId: PATIENT_ID,
+                content: `🧪 Test message from HTML test at ${new Date().toLocaleTimeString()}`,
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(messageData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                addResult(`✅ Message sent successfully!\n${JSON.stringify(result, null, 2)}`, 'success');
+                
+            } catch (error) {
+                addResult(`❌ Send message error: ${error.message}`, 'error');
+            }
+        }
+        
+        function testSocketConnection() {
+            addResult('🔌 Testing Socket.IO connection...');
+            
+            try {
+                // Test if Socket.IO script is available
+                if (typeof io === 'undefined') {
+                    addResult('⚠️ Socket.IO client not loaded. Loading from CDN...', 'error');
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.socket.io/4.7.2/socket.io.min.js';
+                    script.onload = () => {
+                        setTimeout(testSocketConnection, 1000);
+                    };
+                    document.head.appendChild(script);
+                    return;
+                }
+                
+                const socket = io('http://localhost:5000');
+                
+                socket.on('connect', () => {
+                    addResult('✅ Socket.IO connected successfully!', 'success');
+                    addResult(`🔗 Socket ID: ${socket.id}`, 'success');
+                    
+                    // Test sending a message through socket
+                    socket.emit('joinRoom', SUPERVISOR_ID);
+                    addResult(`📨 Joined room for supervisor: ${SUPERVISOR_ID}`, 'success');
+                    
+                    setTimeout(() => {
+                        socket.disconnect();
+                        addResult('🔌 Socket disconnected', 'result');
+                    }, 3000);
+                });
+                
+                socket.on('connect_error', (error) => {
+                    addResult(`❌ Socket connection error: ${error.message}`, 'error');
+                });
+                
+                socket.on('newMessage', (data) => {
+                    addResult(`📨 Received real-time message: ${JSON.stringify(data, null, 2)}`, 'success');
+                });
+                
+            } catch (error) {
+                addResult(`❌ Socket test error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            addResult('🚀 API Test Page Loaded - Ready to test Communication Hub APIs');
+            addResult('📝 These are the same endpoints used by React CommunicationHub.js');
+            addResult('🎯 Click buttons above to test individual APIs or watch console for details');
+        });
+    </script>
+    
+    <!-- Load Socket.IO from CDN -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</body>
+</html>

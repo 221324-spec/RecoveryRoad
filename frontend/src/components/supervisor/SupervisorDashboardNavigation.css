@@ -1,0 +1,165 @@
+/* Universal sidebar navigation styling for all dashboards */
+.supervisor-sidebar-nav button,
+.patient-dashboard nav button,
+.admin-dashboard nav button,
+.ngo-dashboard nav button {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  color: rgb(191, 219, 254) !important; /* text-blue-100 */
+}
+
+.supervisor-sidebar-nav button:hover,
+.patient-dashboard nav button:hover,
+.admin-dashboard nav button:hover,
+.ngo-dashboard nav button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.supervisor-sidebar-nav button.active,
+.patient-dashboard nav button.active,
+.admin-dashboard nav button.active,
+.ngo-dashboard nav button.active,
+.supervisor-sidebar-nav button[style*="rgba(255, 255, 255, 0.3)"],
+.patient-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"],
+.admin-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"],
+.ngo-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"] {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  color: white !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Remove any backgrounds for inactive buttons */
+.supervisor-sidebar-nav button:not(:hover):not(.active):not([style*="rgba(255, 255, 255, 0.3)"]),
+.patient-dashboard nav button:not(:hover):not(.active):not([style*="rgba(255, 255, 255, 0.3)"]),
+.admin-dashboard nav button:not(:hover):not(.active):not([style*="rgba(255, 255, 255, 0.3)"]),
+.ngo-dashboard nav button:not(:hover):not(.active):not([style*="rgba(255, 255, 255, 0.3)"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Icon color overrides */
+.supervisor-sidebar-nav button span,
+.patient-dashboard nav button span,
+.admin-dashboard nav button span,
+.ngo-dashboard nav button span {
+  color: rgb(196, 181, 253) !important; /* text-blue-200 */
+}
+
+.supervisor-sidebar-nav button.active span,
+.patient-dashboard nav button.active span,
+.admin-dashboard nav button.active span,
+.ngo-dashboard nav button.active span,
+.supervisor-sidebar-nav button[style*="rgba(255, 255, 255, 0.3)"] span,
+.patient-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"] span,
+.admin-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"] span,
+.ngo-dashboard nav button[style*="rgba(255, 255, 255, 0.3)"] span {
+  color: white !important;
+}
+
+.supervisor-sidebar-nav button:hover span,
+.patient-dashboard nav button:hover span,
+.admin-dashboard nav button:hover span,
+.ngo-dashboard nav button:hover span {
+  color: white !important;
+}
+
+/* Submenu anchor tag styling - make all text white */
+.supervisor-sidebar-nav a,
+.patient-dashboard nav a,
+.admin-dashboard nav a,
+.ngo-dashboard nav a {
+  color: white !important;
+}
+
+.supervisor-sidebar-nav a:hover,
+.patient-dashboard nav a:hover,
+.admin-dashboard nav a:hover,
+.ngo-dashboard nav a:hover {
+  color: white !important;
+}
+
+/* All text elements in sidebar navigation */
+.supervisor-sidebar-nav *,
+.patient-dashboard nav *,
+.admin-dashboard nav *,
+.ngo-dashboard nav * {
+  color: white !important;
+}
+
+/* Override any blue text classes in sidebar */
+.supervisor-sidebar-nav .text-blue-200,
+.patient-dashboard nav .text-blue-200,
+.admin-dashboard nav .text-blue-200,
+.ngo-dashboard nav .text-blue-200 {
+  color: white !important;
+}
+
+.supervisor-sidebar-nav .text-blue-100,
+.patient-dashboard nav .text-blue-100,
+.admin-dashboard nav .text-blue-100,
+.ngo-dashboard nav .text-blue-100 {
+  color: white !important;
+}
+
+/* Explicitly neutralize or remap Tailwind green classes inside all dashboards */
+/* Map green backgrounds/text to sky/blue tones (no visible green) */
+.patient-dashboard [class*="bg-green"],
+.patient-dashboard [class*="from-green"],
+.patient-dashboard [class*="to-green"],
+.patient-dashboard [class*="border-green"],
+.admin-dashboard [class*="bg-green"],
+.admin-dashboard [class*="from-green"],
+.admin-dashboard [class*="to-green"],
+.admin-dashboard [class*="border-green"],
+.ngo-dashboard [class*="bg-green"],
+.ngo-dashboard [class*="from-green"],
+.ngo-dashboard [class*="to-green"],
+.ngo-dashboard [class*="border-green"],
+.supervisor-dashboard [class*="bg-green"],
+.supervisor-dashboard [class*="from-green"],
+.supervisor-dashboard [class*="to-green"],
+.supervisor-dashboard [class*="border-green"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+.patient-dashboard [class*="text-green"],
+.admin-dashboard [class*="text-green"],
+.ngo-dashboard [class*="text-green"],
+.supervisor-dashboard [class*="text-green"] {
+  color: #0ea5e9 !important; /* sky-500 */
+}
+
+.patient-dashboard .bg-emerald-50,
+.patient-dashboard .bg-emerald-100,
+.patient-dashboard .bg-emerald-500,
+.patient-dashboard .text-emerald-600,
+.admin-dashboard .bg-emerald-50,
+.admin-dashboard .bg-emerald-100,
+.admin-dashboard .bg-emerald-500,
+.admin-dashboard .text-emerald-600,
+.ngo-dashboard .bg-emerald-50,
+.ngo-dashboard .bg-emerald-100,
+.ngo-dashboard .bg-emerald-500,
+.ngo-dashboard .text-emerald-600,
+.supervisor-dashboard .bg-emerald-50,
+.supervisor-dashboard .bg-emerald-100,
+.supervisor-dashboard .bg-emerald-500,
+.supervisor-dashboard .text-emerald-600 {
+  background-color: transparent !important;
+  color: #0ea5e9 !important;
+}
+
+/* Ensure blue gradient sidebar for all dashboards */
+.patient-dashboard aside,
+.admin-dashboard aside,
+.ngo-dashboard aside,
+.supervisor-dashboard aside {
+  background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(29, 78, 216)) !important;
+}

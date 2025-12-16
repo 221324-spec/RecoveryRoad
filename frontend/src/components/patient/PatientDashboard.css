@@ -1,0 +1,108 @@
+/* Force black text for all dashboard elements */
+.dashboard-black-text {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+.dashboard-black-text p {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+.dashboard-black-text span {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+/* Specific overrides for stats cards */
+.stats-card-label {
+  color: #000000 !important;
+  font-weight: bold !important;
+  font-size: 0.875rem !important;
+}
+
+/* Specific overrides for activities */
+.activity-text {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+.activity-time {
+  color: #000000 !important;
+  font-weight: normal !important;
+}
+
+/* Override any Tailwind gray classes */
+.text-gray-500,
+.text-gray-600,
+.text-gray-700,
+.text-gray-800 {
+  color: #000000 !important;
+}
+
+/* Neutralize green/emerald/teal styles inside the patient dashboard */
+.patient-dashboard [class*="bg-green"],
+.patient-dashboard [class*="from-green"],
+.patient-dashboard [class*="to-green"],
+.patient-dashboard [class*="border-green"],
+.patient-dashboard [class*="bg-emerald"],
+.patient-dashboard [class*="from-emerald"],
+.patient-dashboard [class*="to-emerald"],
+.patient-dashboard [class*="text-emerald"],
+.patient-dashboard [class*="bg-teal"],
+.patient-dashboard [class*="text-teal"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+.patient-dashboard [class*="text-green"] {
+  color: #0ea5e9 !important; /* map greens to sky-500 */
+}
+
+.patient-dashboard .bg-emerald-50,
+.patient-dashboard .bg-emerald-100,
+.patient-dashboard .bg-emerald-500,
+.patient-dashboard .text-emerald-600 {
+  background-color: transparent !important;
+  color: #0ea5e9 !important;
+}
+
+/* Small override for any online/indicator dots that might be green */
+.patient-dashboard .w-3.h-3[class*="bg-green"],
+.patient-dashboard .w-2.h-2[class*="bg-green"],
+.patient-dashboard .w-4.h-4[class*="bg-green"] {
+  background-color: #38bdf8 !important; /* sky-400 */
+}
+
+/* Specific overrides for sidebar navigation buttons */
+.patient-dashboard aside nav button {
+  background-color: transparent !important;
+  color: rgb(191, 219, 254) !important; /* text-blue-100 */
+}
+
+.patient-dashboard aside nav button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.patient-dashboard aside nav button[class*="bg-white"] {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Specific overrides for sidebar sub-menu links */
+.patient-dashboard aside nav a {
+  color: rgb(191, 219, 254) !important;
+}
+
+.patient-dashboard aside nav a:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.patient-dashboard aside nav a[class*="bg-white"] {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}

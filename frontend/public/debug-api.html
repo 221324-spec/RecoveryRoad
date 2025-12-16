@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Communication Hub</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .button { background: #007bff; color: white; border: none; padding: 10px 20px; margin: 5px; border-radius: 4px; cursor: pointer; }
+        .result { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; white-space: pre-wrap; font-family: monospace; }
+        .error { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .success { background: #d4edda; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Communication Hub Debug</h1>
+    <p>This tests the exact same API calls that CommunicationHub.js makes</p>
+    
+    <button class="button" onclick="testFrontendAPI()">🔍 Test Frontend API Call</button>
+    <button class="button" onclick="testDirectAPI()">🔗 Test Direct Backend</button>
+    <button class="button" onclick="testCORS()">🌐 Test CORS</button>
+    <button class="button" onclick="clearResults()">🗑️ Clear Results</button>
+    
+    <div id="results"></div>
+    
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        const SUPERVISOR_ID = '68e63e313613f67e194b9111';
+        
+        function addResult(message, type = 'result') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        async function testFrontendAPI() {
+            addResult('🔍 Testing the exact same API call that CommunicationHub.js makes...');
+            
+            try {
+                // This is the exact same call as in chatService.js
+                const url = `${API_BASE}/supervisors/${SUPERVISOR_ID}/patients`;
+                addResult(`📡 Calling URL: ${url}`);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                addResult(`📊 Response status: ${response.status} ${response.statusText}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                addResult(`✅ SUCCESS! Got data: ${JSON.stringify(data, null, 2)}`, 'success');
+                
+                if (data.patients && data.patients.length > 0) {
+                    addResult(`👥 Found ${data.patients.length} patients:`, 'success');
+                    data.patients.forEach(p => {
+                        addResult(`  📋 Patient: ${p.name} (ID: ${p._id})`, 'success');
+                    });
+                } else {
+                    addResult(`⚠️ No patients in response!`, 'error');
+                }
+                
+            } catch (error) {
+                addResult(`❌ FRONTEND API ERROR: ${error.message}`, 'error');
+                addResult(`🔍 This means React can't reach the backend!`, 'error');
+            }
+        }
+        
+        async function testDirectAPI() {
+            addResult('🔗 Testing direct backend connection...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/supervisors/${SUPERVISOR_ID}/patients`);
+                const data = await response.json();
+                addResult(`✅ Direct backend test successful: ${JSON.stringify(data, null, 2)}`, 'success');
+            } catch (error) {
+                addResult(`❌ Direct backend error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testCORS() {
+            addResult('🌐 Testing CORS preflight...');
+            
+            try {
+                const response = await fetch(`${API_BASE}/supervisors/${SUPERVISOR_ID}/patients`, {
+                    method: 'OPTIONS'
+                });
+                addResult(`✅ CORS preflight OK: ${response.status}`, 'success');
+            } catch (error) {
+                addResult(`❌ CORS error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run test on load
+        window.addEventListener('load', () => {
+            addResult('🚀 Debug page loaded. Testing Communication Hub API calls...');
+            setTimeout(testFrontendAPI, 1000);
+        });
+    </script>
+</body>
+</html>

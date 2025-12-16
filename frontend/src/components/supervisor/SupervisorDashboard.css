@@ -1,0 +1,52 @@
+/* Fix all grey text visibility issues */
+.text-visibility-fix {
+  color: #000000 !important;
+}
+
+.text-visibility-fix .text-slate-600,
+.text-visibility-fix .text-slate-500,
+.text-visibility-fix .text-gray-600,
+.text-visibility-fix .text-gray-500 {
+  color: #000000 !important;
+}
+
+/* Global override for all grey text classes */
+.text-slate-600,
+.text-slate-500,
+.text-gray-600,
+.text-gray-500 {
+  color: #000000 !important;
+}
+
+/* Specific fixes for patient cards */
+.patient-card-text {
+  color: #000000 !important;
+}
+
+.patient-info-text {
+  color: #000000 !important;
+}
+
+/* Override all text in patient overview panel */
+.patient-overview-panel .text-slate-600,
+.patient-overview-panel .text-slate-500,
+.patient-overview-panel .text-gray-600,
+.patient-overview-panel .text-gray-500,
+.patient-overview-panel p,
+.patient-overview-panel span {
+  color: #000000 !important;
+}
+
+/* Ensure search inputs are visible */
+.patient-overview-panel input::placeholder {
+  color: #666666 !important;
+}
+
+.top-performer-text {
+  color: #000000 !important;
+}
+
+/* Make all descriptive text black */
+.description-text {
+  color: #000000 !important;
+}
